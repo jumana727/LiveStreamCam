@@ -1,0 +1,15 @@
+/* camera.component.css */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.camera-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.video-section {
+  flex: 3;
+  padding: 20px;
+}

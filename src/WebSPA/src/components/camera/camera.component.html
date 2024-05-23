@@ -1,0 +1,37 @@
+<!-- camera.component.html -->
+<div class="container">
+  <div class="camera-section">
+    <mat-card>
+      <h2>Camera Management</h2>
+
+      <form [formGroup]="cameraForm" (ngSubmit)="saveCamera()">
+        <mat-form-field appearance="fill">
+          <mat-label>RTSP URL</mat-label>
+          <input matInput id="rtspUrl" formControlName="rtspUrl" />
+        </mat-form-field>
+
+        <div class="buttons">
+          <button mat-raised-button color="primary" type="submit">
+            {{ isEditing ? 'Update' : 'Add' }} Camera
+          </button>
+          <button mat-button type="button" (click)="resetForm()">Cancel</button>
+        </div>
+      </form>
+    </mat-card>
+
+    <mat-list>
+      <mat-list-item *ngFor="let camera of cameras">
+        {{ camera.rtspUrl }}
+        <button mat-icon-button color="primary" (click)="editCamera(camera)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteCamera(camera.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="video-section">
+    <app-video></app-video>
+  </div>
+</div>
