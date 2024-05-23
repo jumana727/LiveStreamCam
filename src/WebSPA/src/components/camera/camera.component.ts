@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Camera } from '../../Camera';
 import { CameraService } from '../../services/camera.service';
 import { VideoComponent } from '../video/video.component';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-camera',
@@ -37,7 +38,7 @@ export class CameraComponent implements OnInit {
   isEditing: boolean = false;
   currentCameraId: number | null = null;
 
-  constructor(private cameraService: CameraService, private fb: FormBuilder) {
+  constructor(private cameraService: CameraService, private fb: FormBuilder, private toastService: ToastService) {
     this.cameraForm = this.fb.group({
       rtspUrl: ['']
     });
@@ -59,11 +60,13 @@ export class CameraComponent implements OnInit {
       this.cameraService.updateCamera(updatedCamera).subscribe(() => {
         this.loadCameras();
         this.resetForm();
+        this.toastService.show("Camera Edited Successfully!");
       });
     } else {
       this.cameraService.createCamera(this.cameraForm.value).subscribe(() => {
         this.loadCameras();
         this.resetForm();
+        this.toastService.show("New Camera Created Successfully!");
       });
     }
   }
@@ -77,6 +80,7 @@ export class CameraComponent implements OnInit {
   deleteCamera(id: number): void {
     this.cameraService.deleteCamera(id).subscribe(() => {
       this.loadCameras();
+      this.toastService.show("Camera Deleted Successfully!");
     });
   }
 
