@@ -1,12 +1,30 @@
 // video.component.ts
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SafePipe } from 'safe-pipe';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, SafePipe ]
 })
-export class VideoComponent {}
+
+export class VideoComponent implements OnChanges{
+  @Input() streamUrl: string = "http://localhost:8889/my_camera";
+
+  safeStreamUrl: SafeResourceUrl | undefined;
+
+  constructor(private sanitizer: DomSanitizer) {
+    
+  }
+
+  ngOnChanges(): void {
+    this.safeStreamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.streamUrl);
+    console.log("safe stream");
+    console.log(this.safeStreamUrl);
+  }
+
+}

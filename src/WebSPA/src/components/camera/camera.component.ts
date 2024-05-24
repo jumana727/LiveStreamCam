@@ -36,7 +36,13 @@ export class CameraComponent implements OnInit {
   cameras: Camera[] = [];
   cameraForm: FormGroup;
   isEditing: boolean = false;
+
   currentCameraId: number | null = null;
+  
+
+  selectedStream: string = "";
+  analyticsType: string = "";
+
 
   constructor(private cameraService: CameraService, private fb: FormBuilder, private toastService: ToastService) {
     this.cameraForm = this.fb.group({
@@ -89,4 +95,15 @@ export class CameraComponent implements OnInit {
     this.currentCameraId = null;
     this.cameraForm.reset();
   }
+
+  playStream(streamUrl: string): void {
+    console.log("play stream");
+    console.log(streamUrl);
+    this.selectedStream = streamUrl;
+  }
+
+  setAnalyticsType(analyticsType: string) : void {
+    this.analyticsType = analyticsType;
+  }
+
 }

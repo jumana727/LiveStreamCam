@@ -5,11 +5,12 @@
 }
 
 .camera-section {
-  flex: 1;
+  flex: 0.2;
   padding: 20px;
+  margin: 0;
 }
 
 .video-section {
-  flex: 3;
+  flex: 4;
   padding: 20px;
 }

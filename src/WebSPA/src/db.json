@@ -1,18 +1,6 @@
 {
   "cameras": [
     {
-      "id": "9c29",
-      "rtspUrl": "ghjghj"
-    },
-    {
-      "id": "c73f",
-      "rtspUrl": "ghjghj"
-    },
-    {
-      "id": "a524",
-      "rtspUrl": "tyutyu"
-    },
-    {
       "id": "2018",
       "rtspUrl": "ghj"
     },
@@ -27,6 +15,24 @@
     {
       "id": "b7ac",
       "rtspUrl": "asdasdqweqwe"
+    },
+    {
+      "id": "8632",
+      "rtspUrl": "asdasd"
+    }
+  ],
+  "analyticsSettings": [
+    {
+      "id": "1",
+      "analyticsType": "FaceDetection"
+    }, 
+    {
+      "id": "2",
+      "analyticsType": "ObjectDetection"
+    }, 
+    {
+      "id": "3",
+      "analyticsType": "NumberPlateDetection"
     }
   ]
 }
