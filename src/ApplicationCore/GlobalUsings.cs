@@ -1,0 +1,9 @@
+global using Ardalis.GuardClauses;
+global using Ardalis.SharedKernel;
+global using Ardalis.Specification;
+global using ApplicationCore.Entities.AnalyticsSettingsAggregate;
+global using ApplicationCore.Enums;
+global using ApplicationCore.Entities.VideoStreamAggregate;
+global using ApplicationCore.Extensions;
+global using ApplicationCore.Specifications;
+global using Microsoft.Extensions.Logging;

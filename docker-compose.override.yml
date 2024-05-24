@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  publicapi:
+    build:
+      context: .
+      dockerfile: src/PublicAPI/Dockerfile
+      args:
+        - configuration=Debug
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LD_LIBRARY_PATH=/app/publish/libForSDKs
+    ports:
+      - 8080:8080
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ./lib:/app/publish/libForSDKs
+
+  postgres-db:
+    # restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password@123
+      POSTGRES_USER: matrix
+      POSTGRES_DB: MVPMonolithSample
