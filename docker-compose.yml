@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  publicapi:
+    image: publicapi
+    build:
+      context: .
+      dockerfile: src/PublicAPI/Dockerfile
+    ports:
+      - 8080:8080
+
+  postgres-db:
+    image: postgres
