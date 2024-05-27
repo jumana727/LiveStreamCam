@@ -37,7 +37,7 @@ export class CameraComponent implements OnInit {
   cameraForm: FormGroup;
   isEditing: boolean = false;
 
-  currentCameraId: number | null = null;
+  currentCameraId: number = 0;
   
 
   selectedStream: string = "";
@@ -91,18 +91,31 @@ export class CameraComponent implements OnInit {
 
   resetForm(): void {
     this.isEditing = false;
-    this.currentCameraId = null;
+    this.currentCameraId = 0;
     this.cameraForm.reset();
   }
 
-  playStream(streamUrl: string): void {
+  playStream(camera: Camera): void {
     console.log("play stream");
-    console.log(streamUrl);
-    this.selectedStream = streamUrl;
+    console.log(camera.uri);
+    this.selectedStream = camera.uri;
+    this.currentCameraId = camera.id;
   }
 
   setAnalyticsType(analyticsType: string) : void {
     this.analyticsType = analyticsType;
+  }
+
+  startAnalysis() {
+    this.cameraService.startAnalysis(this.currentCameraId).subscribe(() => {
+      console.log("starting analyssis!!!");
+    });
+  }
+
+  stopAnalysis() {
+    this.cameraService.stopAnalysis(this.currentCameraId).subscribe(() => {
+      console.log("stopping analyssis!!!");
+    });
   }
 
 }

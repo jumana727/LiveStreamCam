@@ -29,7 +29,7 @@
         <button mat-icon-button color="warn" (click)="deleteCamera(camera.id)">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="playStream(camera.uri)">
+        <button mat-icon-button color="warn" (click)="playStream(camera)">
           <mat-icon >play_circle_outline</mat-icon>
         </button>
       </mat-list-item>
@@ -69,10 +69,10 @@
 
 
     <div class="buttons">
-      <button mat-raised-button color="primary" type="submit">
+      <button mat-raised-button color="primary" (click)="startAnalysis()">
         {{ isEditing ? 'Stop' : 'Start' }} Analytics
       </button>
-      <button mat-button type="button" (click)="resetForm()">Cancel</button>
+      <button mat-button type="button" (click)="stopAnalysis()">Cancel</button>
     </div>
 
 

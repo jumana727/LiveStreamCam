@@ -10,6 +10,8 @@ import { Camera } from '../Camera';
 })
 export class CameraService {
   private videoStreamApiUrl = 'http://localhost:8080/api/VideoStream';  
+  private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
+  private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
 
   constructor(private http: HttpClient) {}
 
@@ -38,4 +40,15 @@ export class CameraService {
   deleteCamera(id: number): Observable<void> {
     return this.http.delete<void>(`${this.videoStreamApiUrl}/${id}`);
   }
+
+
+  startAnalysis(cameraId: number) : Observable<string>{
+    return this.http.get<string>(`${this.analyticsApiUrl}/StartAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
+  }
+
+  stopAnalysis(cameraId: number) : Observable<string> {
+    return this.http.get<string>(`${this.analyticsApiUrl}/StopAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
+  }
+
+
 }
