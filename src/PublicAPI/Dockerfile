@@ -25,5 +25,6 @@ RUN dotnet publish "PublicAPI.csproj" -c $configuration -o /app/publish /p:UseAp
 
 FROM base AS final
 WORKDIR /app
+COPY "../lib" /app/publish/lib
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PublicAPI.dll"]

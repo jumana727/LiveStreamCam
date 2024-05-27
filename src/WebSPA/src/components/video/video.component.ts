@@ -1,7 +1,6 @@
 // video.component.ts
 import { Component, Input, OnChanges, OnInit, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SafePipe } from 'safe-pipe';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -9,7 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css'],
   standalone: true,
-  imports: [CommonModule, SafePipe ]
+  imports: [CommonModule ]
 })
 
 export class VideoComponent implements OnChanges{

@@ -969,3 +969,6 @@ $RECYCLE.BIN/
 
 # Analytics Library files 
 lib/
+
+# Code editor
+.vscode
