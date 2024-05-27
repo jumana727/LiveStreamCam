@@ -10,14 +10,27 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     private readonly IReadRepository<VideoStream> _VideoStreamRepository = VideoStreamRepository;
     private readonly VideoStreamService _VideoStreamService = VideoStreamService;
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<VideoStream>>> GetAll()
+    {
+        var VideoStreamList = await _VideoStreamRepository.ListAsync();
+
+        if (VideoStreamList is null)    return NotFound();
+
+        return Ok(VideoStreamList);
+    }
+
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<VideoStream>> Create(string uri)
+    public async Task<ActionResult<VideoStream>> Create([FromBody] string uri)
     {
         var newVideoStream = await _VideoStreamService.Create(uri);
 
-        // Handle client bad request and server side errors
+        // Handle client bad request and server side error  s
 
         if (newVideoStream is null) return BadRequest();
 
@@ -47,6 +60,12 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
         //Handle client bad request and server side errors
 
         return NoContent();
+    }
+
+    [HttpPut]
+    public async Task Update(Guid VideoStreamId, string VideoStreamUri)
+    {
+        await _VideoStreamService.Update(VideoStreamId, VideoStreamUri);
     }
 
 }

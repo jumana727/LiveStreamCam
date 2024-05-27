@@ -4,7 +4,7 @@ namespace ApplicationCore.Entities.VideoStreamAggregate;
 
 public class VideoStream : EntityBase<Guid>, IEqualityComparer<VideoStream>, IAggregateRoot
 {
-    public string Uri {get; private set;}
+    public string Uri {get; set;}
 
     public List<AnalyticsSettings> AnalyticsSettings {get;} = [];
 

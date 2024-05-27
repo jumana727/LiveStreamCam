@@ -24,6 +24,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost4200",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+        });
+});
+
+
 var connectionString = builder.Configuration["ConnectionString"]
     ?? throw new($"ConnectionString is empty.");
 // var connectionString = string.Empty;
@@ -56,6 +68,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowLocalhost4200");
 
 app.MapHub<AnalyticsResultsHub>("/analyticsResultsHub");
 

@@ -46,7 +46,7 @@ export class CameraComponent implements OnInit {
 
   constructor(private cameraService: CameraService, private fb: FormBuilder, private toastService: ToastService) {
     this.cameraForm = this.fb.group({
-      rtspUrl: ['']
+      uri: ['']
     });
   }
 
@@ -62,14 +62,13 @@ export class CameraComponent implements OnInit {
 
   saveCamera(): void {
     if (this.isEditing && this.currentCameraId !== null) {
-      const updatedCamera: Camera = { id: this.currentCameraId, ...this.cameraForm.value };
-      this.cameraService.updateCamera(updatedCamera).subscribe(() => {
+      this.cameraService.updateCamera(this.currentCameraId, this.cameraForm.value.uri).subscribe(() => {
         this.loadCameras();
         this.resetForm();
         this.toastService.show("Camera Edited Successfully!");
       });
     } else {
-      this.cameraService.createCamera(this.cameraForm.value).subscribe(() => {
+      this.cameraService.createCamera(this.cameraForm.value.uri).subscribe(() => {
         this.loadCameras();
         this.resetForm();
         this.toastService.show("New Camera Created Successfully!");

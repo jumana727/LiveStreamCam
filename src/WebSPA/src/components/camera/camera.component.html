@@ -8,7 +8,7 @@
       <form [formGroup]="cameraForm" (ngSubmit)="saveCamera()">
         <mat-form-field appearance="fill">
           <mat-label>RTSP URL</mat-label>
-          <input matInput id="rtspUrl" formControlName="rtspUrl" />
+          <input matInput id="uri" formControlName="uri" />
         </mat-form-field>
 
         <div class="buttons">
@@ -22,14 +22,14 @@
 
     <mat-list>
       <mat-list-item *ngFor="let camera of cameras">
-        {{ camera.rtspUrl }}
+        {{ camera.uri }}
         <button mat-icon-button color="primary" (click)="editCamera(camera)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="deleteCamera(camera.id)">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="playStream(camera.rtspUrl)">
+        <button mat-icon-button color="warn" (click)="playStream(camera.uri)">
           <mat-icon >play_circle_outline</mat-icon>
         </button>
       </mat-list-item>

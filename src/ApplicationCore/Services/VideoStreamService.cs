@@ -18,4 +18,13 @@ public class VideoStreamService(IRepository<VideoStream> VideoStreamRepository, 
         await _VideoStreamRepository.DeleteRangeAsync(VideoStreamSpec);
     }
 
+    public async Task Update(Guid VideoStreamId, string VideoStreamUri)
+    {
+        var videoStream = await _VideoStreamRepository.GetByIdAsync(VideoStreamId) ?? throw new Exception("VideoStream does not exist!");
+
+        videoStream.Uri = VideoStreamUri;
+
+        await _VideoStreamRepository.UpdateAsync(videoStream);
+    }
+
 }
