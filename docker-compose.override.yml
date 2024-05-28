@@ -12,15 +12,18 @@ services:
       - LD_LIBRARY_PATH=/app/publish/libForSDKs
     ports:
       - 8080:8080
+
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ./lib:/app/publish/libForSDKs
 
   postgres-db:
-    # restart: always
     ports:
-      - 5432:5432
+      - "5432:5432"
+      
     environment:
       POSTGRES_PASSWORD: password@123
       POSTGRES_USER: matrix
       POSTGRES_DB: MVPMonolithSample
+    volumes:
+      - pgdata:/var/lib/postgresql/data

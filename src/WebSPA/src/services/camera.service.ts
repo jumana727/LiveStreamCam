@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Camera } from '../Camera';
 
+import { GroupMembershipRequest } from "../GroupMembershipRequest";
+import { SignalrService } from './signalr.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class CameraService {
   private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
   private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private signalrService: SignalrService) {}
 
   getCameras(): Observable<Camera[]> {
     return this.http.get<Camera[]>(this.videoStreamApiUrl);
@@ -43,12 +46,27 @@ export class CameraService {
 
 
   startAnalysis(cameraId: number) : Observable<string>{
-    return this.http.get<string>(`${this.analyticsApiUrl}/StartAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
+    var request : GroupMembershipRequest = {
+      streamId : cameraId.toString(),
+      analyticsSettingsId : this.hardCodedSettingsId
+    };
+  
+    this.signalrService.startConnection(request);
+    let result = this.http.get<string>(`${this.analyticsApiUrl}/StartAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
+    return result;
+
   }
 
   stopAnalysis(cameraId: number) : Observable<string> {
+    var request : GroupMembershipRequest = {
+      streamId : cameraId.toString(),
+      analyticsSettingsId : this.hardCodedSettingsId
+    };
+    this.signalrService.LeaveGroup(request);
     return this.http.get<string>(`${this.analyticsApiUrl}/StopAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
   }
 
 
 }
+
+
