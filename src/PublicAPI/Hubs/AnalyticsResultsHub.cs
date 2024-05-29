@@ -15,15 +15,8 @@ public class AnalyticsResultsHub : Hub
 
     // }
 
-    public async Task JoinGroup(string requestString)
+    public async Task JoinGroup(GroupMembershipRequest request)
     {
-
-
-        var request = new GroupMembershipRequest{
-            streamId = requestString.Split('*')[0],
-            analyticsSettingsId = requestString.Split('*')[1]
-        };
-
         if (request.streamId is null || request.analyticsSettingsId is null)
             throw new ArgumentException("Missing Id.", nameof(request));
 
@@ -32,13 +25,8 @@ public class AnalyticsResultsHub : Hub
         await Clients.User(Context.ConnectionId).SendAsync("MembershipResponse", $"You have joined the group for {request.streamId}, {request.analyticsSettingsId}.");
     }
 
-    public async Task LeaveGroup(string requestString)
+    public async Task LeaveGroup(GroupMembershipRequest request)
     {
-        var request = new GroupMembershipRequest{
-            streamId = requestString.Split('*')[0],
-            analyticsSettingsId = requestString.Split('*')[1]
-        };
-
         if (request.streamId is null || request.analyticsSettingsId is null)
             throw new ArgumentException("Missing Id.", nameof(request));
 

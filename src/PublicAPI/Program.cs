@@ -39,7 +39,6 @@ builder.Services.AddCors(options =>
 
 var connectionString = builder.Configuration["ConnectionString"]
     ?? throw new($"ConnectionString is empty.");
-// var connectionString = string.Empty;
 builder.Services.AddApplicationDbContext(connectionString);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

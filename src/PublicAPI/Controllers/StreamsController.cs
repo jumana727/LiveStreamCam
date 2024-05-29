@@ -26,11 +26,11 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<VideoStream>> Create([FromBody] string uri)
+    public async Task<ActionResult<VideoStream>> Create(string uri)
     {
         var newVideoStream = await _VideoStreamService.Create(uri);
 
-        // Handle client bad request and server side error  s
+        // Handle client bad request and server side errors
 
         if (newVideoStream is null) return BadRequest();
 

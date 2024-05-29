@@ -1,4 +1,5 @@
 using ApplicationCore;
+using ApplicationCore.Entities.AnalyticsSettingsAggregate;
 using ApplicationCore.Entities.VideoStreamAggregate;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.SignalR;
@@ -17,7 +18,6 @@ public class AnalyticsController : ControllerBase
     private readonly IReadRepository<VideoStream> _VideoStreamRepository;
     private readonly IHubContext<AnalyticsResultsHub> _hubContext;
     private readonly ILogger<AnalyticsController> _logger;
-    private readonly AnalyticsSettingsService _analyticsSettingsService;
 
     public AnalyticsController(IReadRepository<VideoStream> VideoStreamRepository,
         ILogger<AnalyticsController> logger,
@@ -27,7 +27,6 @@ public class AnalyticsController : ControllerBase
         _VideoStreamRepository = VideoStreamRepository;
         _logger = logger;
         _hubContext = hubContext;
-        _analyticsSettingsService = analyticsSettingsService;
     }
 
     [HttpGet("StartAnalytics")]
@@ -37,10 +36,6 @@ public class AnalyticsController : ControllerBase
     {
         _logger.LogDebug("AnalyticsController | StartAnalytics ({VideoStreamId}:{AnalyticsSettingsId}).", videoStreamId, analyticsSettingsId);
 
-
-        // Dummy AnalyticsSetting
-        var dummyAnalytics = await _analyticsSettingsService.Create(100, ProcessorType.Gpu.ToString(), AnalyticsType.FaceDetection.ToString());
-
         var groupId = (videoStreamId.ToString() + analyticsSettingsId.ToString()).ToLower();
         if (activeThreads.ContainsKey(groupId))  return Ok(new {Message = $"Already running."});
 
@@ -48,9 +43,11 @@ public class AnalyticsController : ControllerBase
         var videoStream = await _VideoStreamRepository.FirstOrDefaultAsync(VideoStreamSpec);
         Guard.Against.Null(videoStream, nameof(videoStream));
 
-        // var analyticsSettings = videoStream.AnalyticsSettings.Where(a => a.Id.ToString() == dummyAnalytics.Id.ToString()).FirstOrDefault();
+        // var analyticsSettings = videoStream.AnalyticsSettings.Where(a => a.Id == dummyAnalytics.Id).FirstOrDefault();
         // Guard.Against.Null(analyticsSettings, nameof(analyticsSettings));
-        var analyticsSettings = dummyAnalytics;
+
+        // Dummy AnalyticsSetting
+        AnalyticsSettings analyticsSettings = new(10, ProcessorType.Gpu, AnalyticsType.FaceDetection);
 
         var scope = serviceProvider.CreateScope();
         var scopedServiceProvider = scope.ServiceProvider;

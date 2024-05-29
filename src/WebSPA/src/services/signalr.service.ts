@@ -49,7 +49,7 @@ export class SignalrService {
 
   addClientToGroup(groupName: GroupMembershipRequest): void {
     console.log("add client to group");
-    this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].send('JoinGroup', `${groupName.streamId }*${groupName.analyticsSettingsId}`);
+    this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].send('JoinGroup', groupName.streamId, groupName.analyticsSettingsId);
   }
 
   recieveAnalyticsNotification(groupName: GroupMembershipRequest): void {
@@ -62,7 +62,7 @@ export class SignalrService {
 
   LeaveGroup(groupName: GroupMembershipRequest): void {
     console.log("Leaving Group");
-    this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].send('LeaveGroup', `${groupName.streamId }*${groupName.analyticsSettingsId}`);
+    this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].send('LeaveGroup', groupName.streamId, groupName.analyticsSettingsId);
   }
   
 
