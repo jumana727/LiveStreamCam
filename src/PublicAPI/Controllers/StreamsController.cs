@@ -1,3 +1,4 @@
+using ApplicationCore;
 using ApplicationCore.Entities.VideoStreamAggregate;
 
 namespace PublicAPI.Controllers;
@@ -66,6 +67,30 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     public async Task Update(Guid VideoStreamId, string VideoStreamUri)
     {
         await _VideoStreamService.Update(VideoStreamId, VideoStreamUri);
+    }
+
+    public static string GetRtspStreamPath(string url)
+    {
+    if (string.IsNullOrEmpty(url))
+    {
+        return null;
+    }
+
+    // Split URL by protocol and path
+    var parts = url.Split("//", 2);
+    if (parts.Length < 2)
+    {
+        return null;
+    }
+
+    // Extract path after port (if any)
+    var pathAndPort = parts[1].Split(':');
+    if (pathAndPort.Length < 2)
+    {
+        return pathAndPort[0]; // No port specified, return entire path
+    }
+
+    return pathAndPort[1];
     }
 
 }

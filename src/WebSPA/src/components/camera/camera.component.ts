@@ -98,8 +98,18 @@ export class CameraComponent implements OnInit {
   playStream(camera: Camera): void {
     console.log("play stream");
     console.log(camera.uri);
-    this.selectedStream = camera.uri;
+   
+    let cameraUrl  = this.parseUrl(camera.uri);
+    this.selectedStream = "http://localhost:8889/"+ cameraUrl + "-webrtc";
     this.currentCameraId = camera.id;
+  }
+
+  parseUrl(url: string) : string{
+    let temp = url.split("//")[1]
+    let path = temp.split(':')[1].split('/')[1];
+
+    return path;
+
   }
 
   setAnalyticsType(analyticsType: string) : void {

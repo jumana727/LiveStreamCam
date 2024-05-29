@@ -4,6 +4,7 @@
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Ardalis.SharedKernel" />
     <PackageReference Include="Ardalis.Specification" />
+    <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 
 </Project>

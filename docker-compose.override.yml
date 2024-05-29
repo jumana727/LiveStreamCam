@@ -16,13 +16,22 @@ services:
       - ~/.vsdbg:/remote_debugger:rw
       - ./lib:/app/publish/libForSDKs
 
+    network_mode: host
+
   postgres-db:
     # restart: always
     ports:
-      - 5432:5432      
+      - "5432:5432"
     environment:
       POSTGRES_USER: matrix
       POSTGRES_PASSWORD: password@123
       POSTGRES_DB: MVPMonolithSample
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+    network_mode: host
+
+  mediamtx:
+    volumes:
+      - ./mediamtx/mediamtx.yml:/mediamtx.yml
+    network_mode: "host"
