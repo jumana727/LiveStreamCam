@@ -126,7 +126,7 @@ authJWTJWKS:
 # Global settings -> Control API
 
 # Enable controlling the server through the Control API.
-api: no
+api: yes
 # Address of the Control API listener.
 apiAddress: :9997
 # Enable TLS/HTTPS on the Control API server.
@@ -139,7 +139,7 @@ apiServerKey: server.key
 # Path to the server certificate.
 apiServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-apiAllowOrigin: '*'
+apiAllowOrigin: 'http://localhost:4200'
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
@@ -684,10 +684,10 @@ pathDefaults:
 # for example "~^prefix" will match all paths that start with "prefix".
 paths:
   # example:
-  sample-webrtc:
-    source: rtsp://localhost:8554/sample
-  output-webrtc:
-    source: rtsp://localhost:8554/output
+  # sample-webrtc:
+  #   source: rtsp://localhost:8554/sample
+  # output-webrtc:
+  #   source: rtsp://localhost:8554/output
   # Settings under path "all_others" are applied to all paths that
   # do not match another entry.
   all_others:

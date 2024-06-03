@@ -15,6 +15,7 @@ export class CameraService {
   private videoStreamApiUrl = 'http://localhost:8080/api/VideoStream';  
   private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
   private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
+  private mediamtxControlApiEndpint = "http://localhost:9997/v3/config/paths/add"
 
   constructor(private http: HttpClient, private signalrService: SignalrService) {}
 
@@ -64,6 +65,18 @@ export class CameraService {
     };
     this.signalrService.LeaveGroup(request);
     return this.http.get<string>(`${this.analyticsApiUrl}/StopAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
+  }
+
+  playWebRTCStream(streamName: string, rtspUri: string) : void{
+
+    this.http.post(`${this.mediamtxControlApiEndpint}/${streamName}`, {
+      "name": streamName ,
+      "source": rtspUri
+    })
+    .subscribe(data => {
+      console.log(data)
+    })
+
   }
 
 
