@@ -15,6 +15,7 @@ services:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ./lib:/app/publish/libForSDKs
+      - ./mediamtx/mediamtx.yml:/app/mediamtx.yml
 
     network_mode: host
 
