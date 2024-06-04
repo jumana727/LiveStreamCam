@@ -11,7 +11,7 @@ services:
     image: postgres
 
   mediamtx:
-    image:  phadkesharanmatrixcomsec/mediamtx:cors-enabled 
+    image:  bluenviron/mediamtx 
 
 
 volumes:

@@ -99,22 +99,24 @@ export class CameraComponent implements OnInit {
     console.log("play stream");
     console.log(camera.uri);
    
-    const parsedCameraUri  = this.parseUrl(camera.uri);
-
-    const sourceName = parsedCameraUri + "-webrtc";
-
-    this.currentCameraId = camera.id;
+    const sourceName = this.getWebRTCUrl(camera.uri);
 
     this.cameraService.playWebRTCStream(sourceName, camera.uri);
 
     this.selectedStream = "http://localhost:8889/" + sourceName
+
+    console.log("webrtc stream ", this.selectedStream);
   }
 
-  parseUrl(url: string) : string{
+  stopStream(camera: Camera) : void {
+    this.cameraService.stopWebRTCStream(this.getWebRTCUrl(camera.uri))
+  } 
+
+  getWebRTCUrl(url: string) : string{
     let temp = url.split("//")[1]
     let path = temp.split(':')[1].split('/')[1];
 
-    return path;
+    return path + "-webrtc";
 
   }
 
