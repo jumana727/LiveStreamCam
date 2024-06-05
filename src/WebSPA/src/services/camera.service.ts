@@ -15,7 +15,7 @@ export class CameraService {
   private videoStreamApiUrl = 'http://localhost:8080/api/VideoStream';  
   private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
   private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
-  private mediamtxControlApiEndpint = "http://localhost:9997/v3/config/paths"
+  private mediamtxControlApiEndpint = "http://localhost:8080/api/VideoStream"
 
   constructor(private http: HttpClient, private signalrService: SignalrService) {}
 
@@ -67,18 +67,15 @@ export class CameraService {
     return this.http.get<string>(`${this.analyticsApiUrl}/StopAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
   }
 
-  playWebRTCStream(streamName: string, rtspUri: string) : void{
-    this.http.post(`${this.mediamtxControlApiEndpint}/add/${streamName}`, {
-      "name": streamName ,
-      "source": rtspUri
-    })
+  playWebRTCStream(streamName: string, camera: Camera) : void{
+    this.http.get(`${this.mediamtxControlApiEndpint}/start/${camera.id}/${streamName}`)
     .subscribe(data => {
       console.log(data)
     })
   }
 
   stopWebRTCStream(streamName: string) : void {
-    this.http.delete(`${this.mediamtxControlApiEndpint}/delete/${streamName}`).subscribe(() => {
+    this.http.get(`${this.mediamtxControlApiEndpint}/stop/${streamName}`).subscribe(() => {
       console.log("stopping web-rtc stream")
     })
   }

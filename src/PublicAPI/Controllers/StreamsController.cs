@@ -1,4 +1,3 @@
-using ApplicationCore;
 using ApplicationCore.Entities.VideoStreamAggregate;
 
 namespace PublicAPI.Controllers;
@@ -67,6 +66,32 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     public async Task Update(Guid VideoStreamId, string VideoStreamUri)
     {
         await _VideoStreamService.Update(VideoStreamId, VideoStreamUri);
+    }
+
+    [HttpGet("start/{VideoStreamId}/{streamName}")]
+    public async Task<ActionResult> Start(Guid VideoStreamId, string streamName)
+    {
+        var response = await _VideoStreamService.Start(VideoStreamId, streamName);
+        
+        if(response.IsSuccessStatusCode)
+        {
+            return Ok();
+        }
+
+        return BadRequest();
+    }
+
+    [HttpGet("stop/{streamName}")]
+    public async Task<ActionResult> Stop(string streamName)
+    {
+        var response = await _VideoStreamService.Stop(streamName);
+        
+        if(response.IsSuccessStatusCode)
+        {
+            return Ok();
+        }
+
+        return BadRequest(  );
     }
 
     public static string GetRtspStreamPath(string url)

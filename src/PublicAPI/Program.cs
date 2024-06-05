@@ -46,6 +46,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddScoped<VideoStreamService>();
 builder.Services.AddScoped<AnalyticsSettingsService>();
 builder.Services.AddScoped<AnalyticsConfigService>();
