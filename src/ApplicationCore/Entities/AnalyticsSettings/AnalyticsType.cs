@@ -2,7 +2,7 @@ namespace ApplicationCore.Enums;
 
 public enum AnalyticsType
 {
-    FaceDetection, 
-    ObjectDetection, 
+    FaceDetection,
+    ObjectDetection,
     NumberPlateDetection,
 }

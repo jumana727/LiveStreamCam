@@ -1,7 +1,7 @@
 namespace ApplicationCore.Services;
 
 public class AnalyticsConfigService(ILogger<AnalyticsConfigService> logger,
-        IRepository<VideoStream> VideoStreamRepository, 
+        IRepository<VideoStream> VideoStreamRepository,
         IRepository<AnalyticsSettings> analyticsSettingsRepository)
 {
     private readonly IRepository<VideoStream> _VideoStreamRepository = VideoStreamRepository;

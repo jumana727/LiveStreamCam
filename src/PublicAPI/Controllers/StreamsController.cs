@@ -17,7 +17,7 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     {
         var VideoStreamList = await _VideoStreamRepository.ListAsync();
 
-        if (VideoStreamList is null)    return NotFound();
+        if (VideoStreamList is null) return NotFound();
 
         return Ok(VideoStreamList);
     }
@@ -35,7 +35,7 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
         if (newVideoStream is null) return BadRequest();
 
         // return CreatedAtAction(nameof(Get), new Dictionary<string, object>() { {"VideoStreamId", newVideoStream.Id} }, newVideoStream);
-        return CreatedAtAction(nameof(Get),  new {newVideoStream.Id} , newVideoStream);
+        return CreatedAtAction(nameof(Get), new { newVideoStream.Id }, newVideoStream);
     }
 
     [HttpGet("{Id}")]
@@ -46,7 +46,7 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
         OneByIdSpec<VideoStream> VideoStreamSpec = new(Id);
         var VideoStream = await _VideoStreamRepository.FirstOrDefaultAsync(VideoStreamSpec);
 
-        if (VideoStream is null)    return NotFound();
+        if (VideoStream is null) return NotFound();
 
         return Ok(VideoStream);
     }
@@ -72,8 +72,8 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     public async Task<ActionResult> Start(Guid VideoStreamId, string streamName)
     {
         var response = await _VideoStreamService.Start(VideoStreamId, streamName);
-        
-        if(response.IsSuccessStatusCode)
+
+        if (response.IsSuccessStatusCode)
         {
             return Ok();
         }
@@ -85,37 +85,37 @@ public class VideoStreamController(IReadRepository<VideoStream> VideoStreamRepos
     public async Task<ActionResult> Stop(string streamName)
     {
         var response = await _VideoStreamService.Stop(streamName);
-        
-        if(response.IsSuccessStatusCode)
+
+        if (response.IsSuccessStatusCode)
         {
             return Ok();
         }
 
-        return BadRequest(  );
+        return BadRequest();
     }
 
     public static string GetRtspStreamPath(string url)
     {
-    if (string.IsNullOrEmpty(url))
-    {
-        return null;
-    }
+        if (string.IsNullOrEmpty(url))
+        {
+            return null;
+        }
 
-    // Split URL by protocol and path
-    var parts = url.Split("//", 2);
-    if (parts.Length < 2)
-    {
-        return null;
-    }
+        // Split URL by protocol and path
+        var parts = url.Split("//", 2);
+        if (parts.Length < 2)
+        {
+            return null;
+        }
 
-    // Extract path after port (if any)
-    var pathAndPort = parts[1].Split(':');
-    if (pathAndPort.Length < 2)
-    {
-        return pathAndPort[0]; // No port specified, return entire path
-    }
+        // Extract path after port (if any)
+        var pathAndPort = parts[1].Split(':');
+        if (pathAndPort.Length < 2)
+        {
+            return pathAndPort[0]; // No port specified, return entire path
+        }
 
-    return pathAndPort[1];
+        return pathAndPort[1];
     }
 
 }

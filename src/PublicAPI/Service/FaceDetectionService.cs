@@ -5,7 +5,7 @@ using OpenCvSharp;
 
 namespace PublicAPI.Services;
 
-public class FaceDetectionService: IAnalyticsService, IDisposable
+public class FaceDetectionService : IAnalyticsService, IDisposable
 {
 
     private readonly ulong _sdkInstance;
@@ -45,7 +45,12 @@ public class FaceDetectionService: IAnalyticsService, IDisposable
 
             var fdResult = DetectFace(tempImageName);
 
-            File.Delete(tempImageName);
+            var detectedFrame = DrawBoundingBox(frame, fdResult);
+
+            if (!detectedFrame.SaveImage(tempImageName))
+                _logger.LogError("Cannot save result image");
+
+            // File.Delete(tempImageName);
 
             yield return fdResult;
         }
@@ -59,7 +64,7 @@ public class FaceDetectionService: IAnalyticsService, IDisposable
         int result = FaceDetector.detectFace(out float a, out float b, out float c, out float d, out float e, imgPath, benchmark, in _sdkInstance);
         _logger.LogDebug($"{a} {b} {c} {d} {e} {result}");
 
-        if(result != 0)
+        if (result != 0)
         {
             _logger.LogError("Failed to detect face.");
         }
@@ -69,19 +74,12 @@ public class FaceDetectionService: IAnalyticsService, IDisposable
         return fdResult;
     }
 
-    private bool DrawBoundingBox(string filePath, AnalyticsResult fDResults)
+    private static Mat DrawBoundingBox(Mat imageFrame, AnalyticsResult fDResults)
     {
-        Mat imageMatrix = Cv2.ImRead(filePath);
         var resultRectangle = new Rect((int)fDResults.X, (int)fDResults.Y, (int)fDResults.Height, (int)fDResults.Width);
-        Cv2.Rectangle(imageMatrix, resultRectangle, Scalar.Green, 2);
-        
-        bool writeSuccess = Cv2.ImWrite(filePath, imageMatrix);
+        Cv2.Rectangle(imageFrame, resultRectangle, Scalar.Green, 2);
 
-        if (writeSuccess)   _logger.LogDebug("Output file saved successfully");
-
-        imageMatrix.Dispose();
-        
-        return writeSuccess;
+        return imageFrame;
     }
 
     // ~FaceDetectionService()

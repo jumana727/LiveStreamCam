@@ -37,7 +37,7 @@ public class AnalyticsController : ControllerBase
         _logger.LogDebug("AnalyticsController | StartAnalytics ({VideoStreamId}:{AnalyticsSettingsId}).", videoStreamId, analyticsSettingsId);
 
         var groupId = (videoStreamId.ToString() + analyticsSettingsId.ToString()).ToLower();
-        if (activeThreads.ContainsKey(groupId))  return Ok(new {Message = $"Already running."});
+        if (activeThreads.ContainsKey(groupId)) return Ok(new { Message = $"Already running." });
 
         VideoStreamWithAnalyticsSettingsSpec VideoStreamSpec = new(videoStreamId);
         var videoStream = await _VideoStreamRepository.FirstOrDefaultAsync(VideoStreamSpec);
@@ -74,13 +74,13 @@ public class AnalyticsController : ControllerBase
         lock (threadLock)
         {
             var addResult = activeThreads.TryAdd(groupId, cancellationTokenSource);
-            
+
             if (addResult)
             {
                 analyticsThread.Start();
                 return Ok();
             }
-            else    return StatusCode(StatusCodes.Status500InternalServerError); 
+            else return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 

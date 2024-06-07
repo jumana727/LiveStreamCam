@@ -52,7 +52,7 @@ public class AnalyticsSettingsController(IReadRepository<AnalyticsSettings> anal
         OneByIdSpec<AnalyticsSettings> analyticsSettingsSpec = new(Id);
         var analyticsSettings = await _analyticsSettingsRepository.FirstOrDefaultAsync(analyticsSettingsSpec);
 
-        if (analyticsSettings is null)    return NotFound();
+        if (analyticsSettings is null) return NotFound();
 
         return Ok(analyticsSettings);
     }

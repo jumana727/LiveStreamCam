@@ -6,8 +6,8 @@ public class AnalyticsResultsHub : Hub
 {
     public class GroupMembershipRequest
     {
-        public string? streamId {get; set;}
-        public string? analyticsSettingsId {get; set;}
+        public string? streamId { get; set; }
+        public string? analyticsSettingsId { get; set; }
     }
 
     // public class GroupMembershipResponse

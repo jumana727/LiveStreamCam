@@ -21,6 +21,6 @@ public static partial class FaceDetector
 
     [LibraryImport(MxFRSDK_PATH, EntryPoint = "detect_face", StringMarshalling = StringMarshalling.Custom, StringMarshallingCustomType = typeof(System.Runtime.InteropServices.Marshalling.AnsiStringMarshaller))]
     public static partial int detectFace(out float mFaceXC, out float mFaceYC, out float mFaceHeight, out float mFaceWidth, out float mFaceScore,
-        string imgPath, int benchmark, in ulong sdkInstance); 
+        string imgPath, int benchmark, in ulong sdkInstance);
 
 }

@@ -5,12 +5,12 @@ namespace ApplicationCore.Entities.AnalyticsSettingsAggregate;
 
 public class AnalyticsSettings : EntityBase<Guid>, IEqualityComparer<AnalyticsSettings>, IAggregateRoot
 {
-    public AnalyticsType AnalyticsType {get; init;}
-    public ProcessorType ProcessorType {get; private set;}
+    public AnalyticsType AnalyticsType { get; init; }
+    public ProcessorType ProcessorType { get; private set; }
     private uint _skipFrames;
     public uint SkipFrames
     {
-        private set 
+        private set
         {
             _skipFrames = value >= maxSkipFrames ? maxSkipFrames : value;
         }

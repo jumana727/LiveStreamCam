@@ -4,9 +4,9 @@ namespace ApplicationCore.Entities.VideoStreamAggregate;
 
 public class VideoStream : EntityBase<Guid>, IEqualityComparer<VideoStream>, IAggregateRoot
 {
-    public string Uri {get; set;}
+    public string Uri { get; set; }
 
-    public List<AnalyticsSettings> AnalyticsSettings {get;} = [];
+    public List<AnalyticsSettings> AnalyticsSettings { get; } = [];
 
     public VideoStream(string uri)
     {
@@ -15,7 +15,7 @@ public class VideoStream : EntityBase<Guid>, IEqualityComparer<VideoStream>, IAg
 
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private VideoStream() {}
+    private VideoStream() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 
