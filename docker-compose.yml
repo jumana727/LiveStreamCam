@@ -13,6 +13,11 @@ services:
   mediamtx:
     image: bluenviron/mediamtx 
 
+  webspa:
+    build:
+      context: ./src/WebSPA
+      dockerfile: Dockerfile
+
 
 volumes:
   pgdata:

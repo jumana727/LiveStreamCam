@@ -31,3 +31,7 @@ services:
     volumes:
       - ./mediamtx/mediamtx.yml:/mediamtx.yml
     network_mode: host
+
+  webspa:
+    ports:
+    - 4200:4200
