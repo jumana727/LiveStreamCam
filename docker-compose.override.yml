@@ -21,9 +21,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: matrix
-      POSTGRES_PASSWORD: password@123
-      POSTGRES_DB: MVPMonolithSample
+      POSTGRES_DB: LiveViewMvpDevelopment
+      POSTGRES_USER: Matrix
+      POSTGRES_PASSWORD: Password@123
     volumes:
       - pgdata:/var/lib/postgresql/data
 
