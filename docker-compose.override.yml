@@ -15,14 +15,11 @@ services:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ./lib:/app/publish/libForSDKs
-      - ./mediamtx/mediamtx.yml:/app/mediamtx.yml
-
-    network_mode: host
 
   postgres-db:
     # restart: always
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       POSTGRES_USER: matrix
       POSTGRES_PASSWORD: password@123
@@ -30,9 +27,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-    network_mode: host
-
   mediamtx:
     volumes:
       - ./mediamtx/mediamtx.yml:/mediamtx.yml
-    network_mode: "host"
+    network_mode: host
