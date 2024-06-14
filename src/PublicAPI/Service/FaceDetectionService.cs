@@ -2,6 +2,7 @@
 using FaceDetectionSDK;
 using ApplicationCore.Models;
 using OpenCvSharp;
+using System.Diagnostics;
 
 namespace PublicAPI.Services;
 
@@ -10,6 +11,12 @@ public class FaceDetectionService : IAnalyticsService, IDisposable
 
     private readonly ulong _sdkInstance;
     private readonly ILogger<FaceDetectionService> _logger;
+
+    private int skipCount;
+
+    private const int SKIP_FRAMES = 5;
+
+    private AnalyticsResult previousResult;
 
     public FaceDetectionService(ILogger<FaceDetectionService> logger)
     {
@@ -27,14 +34,43 @@ public class FaceDetectionService : IAnalyticsService, IDisposable
         _logger.LogDebug("Library Release Status: {status}", status);
     }
 
-    public IEnumerable<AnalyticsResult> StartAnalytics(string uri, CancellationToken cancellationToken)
+    public IEnumerable<AnalyticsResult>? StartAnalyticsAsync(string uri, CancellationToken cancellationToken)
     {
         using VideoCapture capture = new(uri);
         if (!capture.IsOpened())
             throw new Exception($"Failed to open the video uri.");// for Camera( ID={cameraId}, Url={cameraInfo.CameraUrl} ).");
 
+
+        //set skipCount to zero
+        skipCount = 0;
+
+        Process ffmpegProcess;
+
+        try
+        {
+            using Mat testFrame = new();
+            if (capture.Read(testFrame))
+            {
+                ffmpegProcess = FFmpegService.StartFFmpegProcess(testFrame.Height, testFrame.Width);
+            }
+            else
+            {
+                throw new Exception("Test Frame cannot be read!!");
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Error in ffmpeg process");
+            throw new Exception(e.Message);
+        }
+
+
         while (!cancellationToken.IsCancellationRequested)
         {
+            // saving video for debugging
+            // VideoWriter videoWriter = new VideoWriter(videoName, FourCC.XVID, fps, new OpenCvSharp.Size(width, height), true);
+
+
             using Mat frame = new();
             bool readResult = capture.Read(frame);
             if (!readResult) break;
@@ -43,19 +79,61 @@ public class FaceDetectionService : IAnalyticsService, IDisposable
 
             frame.SaveImage(tempImageName);
 
-            var fdResult = DetectFace(tempImageName);
+            if (skipCount <= SKIP_FRAMES)
+            {
+                skipCount++;
 
-            var detectedFrame = DrawBoundingBox(frame, fdResult);
+                //send to ffmpeg process
+                byte[] buffer = new byte[frame.Width * frame.Height * frame.ElemSize()];
 
-            if (!detectedFrame.SaveImage(tempImageName))
-                _logger.LogError("Cannot save result image");
+                var detectedFrame = DrawBoundingBox(frame, previousResult ?? new AnalyticsResult(0, 0, 0, 0, 0, 0, DateTime.Now));
 
+                buffer = MatToByteArray(detectedFrame);
+
+                ffmpegProcess.StandardInput.BaseStream.WriteAsync(buffer, 0, buffer.Length);
+
+                yield return null;
+            }
+
+            else
+            {
+                var fdResult = DetectFace(tempImageName);
+
+                var detectedFrame = DrawBoundingBox(frame, fdResult);
+
+                int width = detectedFrame.Width;
+                int height = detectedFrame.Height;
+
+                Console.WriteLine($"height and width {height} {width}");
+
+                // Send to ffmpeg process through pipe
+                byte[] buffer = new byte[width * height * detectedFrame.ElemSize()];
+
+                buffer = MatToByteArray(detectedFrame);
+
+                ffmpegProcess.StandardInput.BaseStream.WriteAsync(buffer, 0, buffer.Length);
+
+                if (!detectedFrame.SaveImage(tempImageName))
+                    _logger.LogError("Cannot save result image");
+
+                skipCount = 0;
+                previousResult = fdResult;
+
+                yield return fdResult;
+            }
             // File.Delete(tempImageName);
-
-            yield return fdResult;
         }
 
     }
+
+    private static byte[] MatToByteArray(Mat mat)
+    {
+        int size = mat.Rows * mat.Cols * mat.ElemSize();
+        byte[] data = new byte[size];
+        System.Runtime.InteropServices.Marshal.Copy(mat.Data, data, 0, size);
+        return data;
+    }
+
 
     private AnalyticsResult DetectFace(string imgPath)
     {
@@ -94,5 +172,4 @@ public class FaceDetectionService : IAnalyticsService, IDisposable
 
         GC.SuppressFinalize(this);
     }
-
 }

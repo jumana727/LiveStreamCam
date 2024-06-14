@@ -1,4 +1,4 @@
-FROM phadkesharanmatrixcomsec/opencv-aspnet:4.8.0-8.0-jammy AS base
+FROM phadkesharanmatrixcomsec/dotnet-opencv-ffmpeg AS base
 WORKDIR /app
 EXPOSE 8080
 

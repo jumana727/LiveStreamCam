@@ -4,5 +4,5 @@ namespace ApplicationCore;
 
 public interface IAnalyticsService
 {
-    public IEnumerable<AnalyticsResult> StartAnalytics(string uri, CancellationToken cancellationToken);
+    public IEnumerable<AnalyticsResult> StartAnalyticsAsync(string uri, CancellationToken cancellationToken);
 }

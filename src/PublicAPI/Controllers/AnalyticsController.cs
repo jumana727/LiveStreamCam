@@ -58,10 +58,14 @@ public class AnalyticsController : ControllerBase
         {
             try
             {
-                foreach (var result in analyticsService.StartAnalytics(videoStream.Uri, cancellationTokenSource.Token))
+                foreach (var result in analyticsService.StartAnalyticsAsync(videoStream.Uri, cancellationTokenSource.Token))
                 {
-                    _hubContext.Clients.Group(groupId).SendAsync("result", result.ToJson().ToString());
-                    Console.WriteLine("signalr sending");
+                    // Disable Notification for debugging
+                    if (result != null)
+                    {
+                        _hubContext.Clients.Group(groupId).SendAsync("result", result.ToJson().ToString());
+                        Console.WriteLine("signalr sending");
+                    }
                 }
             }
             finally
