@@ -1,11 +1,11 @@
-FROM phadkesharanmatrixcomsec/dotnet-opencv-ffmpeg AS base
+FROM arjunkhunt/opencv-ffmpeg-aspnet:4.10.0-7.0-8.0-noble AS base
 WORKDIR /app
 EXPOSE 8080
 
 ENV ASPNETCORE_URLS=http://+:8080
 
 USER app
-FROM --platform=$BUILDPLATFORM phadkesharanmatrixcomsec/opencv-sdk:4.8.0-8.0-jammy AS build
+FROM --platform=$BUILDPLATFORM arjunkhunt/opencv-ffmpeg-sdk:4.10.0-7.0-8.0-noble AS build
 ARG configuration=Release
 WORKDIR /src
 COPY ["./Directory.Build.props", "./"]
