@@ -485,6 +485,3 @@ $RECYCLE.BIN/
 
 # Analytics Library files 
 lib/
-
-# VS Code debugger settings
-.vscode
