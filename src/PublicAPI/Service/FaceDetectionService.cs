@@ -104,8 +104,6 @@ public class FaceDetectionService : IAnalyticsService, IDisposable
                 int width = detectedFrame.Width;
                 int height = detectedFrame.Height;
 
-                Console.WriteLine($"height and width {height} {width}");
-
                 // Send to ffmpeg process through pipe
                 byte[] buffer = new byte[width * height * detectedFrame.ElemSize()];
 

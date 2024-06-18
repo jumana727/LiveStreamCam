@@ -64,7 +64,6 @@ public class AnalyticsController : ControllerBase
                     if (result != null)
                     {
                         _hubContext.Clients.Group(groupId).SendAsync("result", result.ToJson().ToString());
-                        Console.WriteLine("signalr sending");
                     }
                 }
             }
