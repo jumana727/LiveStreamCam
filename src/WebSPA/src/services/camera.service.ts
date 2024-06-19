@@ -12,10 +12,10 @@ import { SignalrService } from './signalr.service';
   providedIn: 'root'
 })
 export class CameraService {
-  private videoStreamApiUrl = 'http://localhost:8080/api/VideoStream';  
-  private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
+  private videoStreamApiUrl = 'http://publicapi:8080/api/VideoStream';
+  private analyticsApiUrl = 'http://publicapi:8080/api/Analytics';
   private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
-  private mediamtxControlApiEndpint = "http://localhost:8080/api/VideoStream"
+  private mediamtxControlApiEndpint = "http://publicapi:8080/api/VideoStream";
 
   constructor(private http: HttpClient, private signalrService: SignalrService) {}
 
@@ -36,7 +36,7 @@ export class CameraService {
 
     return this.http.post<string>(this.videoStreamApiUrl, JSON.stringify(uri), { headers });
   }
-  
+
   updateCamera(cameraId: number, cameraUri: string): Observable<string> {
     return this.http.put<string>(`${this.videoStreamApiUrl}?VideoStreamId=${cameraId}&VideoStreamUri=${cameraUri}`, cameraId);
   }
@@ -51,7 +51,7 @@ export class CameraService {
       streamId : cameraId.toString(),
       analyticsSettingsId : this.hardCodedSettingsId
     };
-  
+
     this.signalrService.startConnection(request);
     let result = this.http.get<string>(`${this.analyticsApiUrl}/StartAnalytics?videoStreamId=${cameraId}&analyticsSettingsId=${this.hardCodedSettingsId}`)
     return result;

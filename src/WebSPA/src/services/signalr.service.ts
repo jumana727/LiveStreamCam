@@ -18,9 +18,9 @@ export class SignalrService {
   startConnection(groupName: GroupMembershipRequest): void {
 
     console.log("Start signalr connection")
-   
+
     const hubConnection = new HubConnectionBuilder()
-      .withUrl('http://localhost:8080/analyticsResultsHub')
+      .withUrl('http://publicapi:8080/analyticsResultsHub')
       .build();
     this.hubConnections[groupName.streamId + groupName.analyticsSettingsId] = hubConnection;
 
@@ -59,13 +59,12 @@ export class SignalrService {
     this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].on('result', (message) => {
       console.log(message);
       this.toast.show(message);
-    }); 
+    });
   }
 
   LeaveGroup(groupName: GroupMembershipRequest): void {
     console.log("Leaving Group");
     this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].send('LeaveGroup', groupName);
   }
-  
 
 }

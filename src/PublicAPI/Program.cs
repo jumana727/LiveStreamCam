@@ -26,10 +26,10 @@ builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost4200",
+    options.AddPolicy("Allow_webspa4200",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200")
+            builder.WithOrigins("http://webspa:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
@@ -71,7 +71,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("AllowLocalhost4200");
+app.UseCors("Allow_webspa4200");
 
 app.MapHub<AnalyticsResultsHub>("/analyticsResultsHub");
 

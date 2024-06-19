@@ -5,7 +5,7 @@ namespace ApplicationCore.Services;
 
 public class VideoStreamService(IRepository<VideoStream> VideoStreamRepository, ILogger<VideoStreamService> logger, HttpClient httpClient)
 {
-    private const string mediaMtxControlAPIEndpoint = "http://localhost:9997/v3/config/paths";
+    private const string mediaMtxControlAPIEndpoint = "http://mediamtx:9997/v3/config/paths";
     private readonly IRepository<VideoStream> _VideoStreamRepository = VideoStreamRepository;
     private readonly ILogger<VideoStreamService> _logger = logger;
     private readonly HttpClient _httpClient = httpClient;

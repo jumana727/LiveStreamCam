@@ -38,7 +38,6 @@ export class CameraComponent implements OnInit {
   isEditing: boolean = false;
 
   currentCameraId: number = 0;
-  
 
   selectedStream: string = "";
   analyticsType: string = "";
@@ -98,12 +97,12 @@ export class CameraComponent implements OnInit {
   playStream(camera: Camera): void {
     console.log("play stream");
     console.log(camera.uri);
-   
+
     const sourceName = this.getWebRTCUrl(camera.uri);
 
     this.cameraService.playWebRTCStream(sourceName, camera);
 
-    this.selectedStream = "http://localhost:8889/" + sourceName
+    this.selectedStream = "http://mediamtx:8889/" + sourceName
     this.currentCameraId = camera.id;
 
     console.log("webrtc stream ", this.selectedStream);
@@ -111,7 +110,7 @@ export class CameraComponent implements OnInit {
 
   stopStream(camera: Camera) : void {
     this.cameraService.stopWebRTCStream(this.getWebRTCUrl(camera.uri))
-  } 
+  }
 
   getWebRTCUrl(url: string) : string{
     let temp = url.split("//")[1]
