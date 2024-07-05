@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   publicapi:
@@ -11,13 +11,12 @@ services:
     image: postgres
 
   mediamtx:
-    image: bluenviron/mediamtx 
+    image: bluenviron/mediamtx
 
-  webspa:
-    build:
-      context: ./src/WebSPA
-      dockerfile: Dockerfile
-
+  # webspa:
+  #   build:
+  #     context: ./src/WebSPA
+  #     dockerfile: Dockerfile
 
 volumes:
   pgdata:

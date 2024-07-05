@@ -6,7 +6,7 @@ public static class FFmpegService
 {
     public static Process StartFFmpegProcess(int height, int width)
     {
-        string rtspUrlOutput = "rtsp://mediamtx:8554/sample-out";
+        string rtspUrlOutput = "rtsp://localhost:8554/sample-out";
         int fps = 25;
 
         // FFmpeg command

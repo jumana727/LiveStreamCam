@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   publicapi:
@@ -16,6 +16,8 @@ services:
       - ~/.vsdbg:/remote_debugger:rw
       - ./lib:/app/publish/libForSDKs
 
+    network_mode: host
+
   postgres-db:
     # restart: always
     ports:
@@ -32,6 +34,8 @@ services:
       - ./mediamtx/mediamtx.yml:/mediamtx.yml
     network_mode: host
 
-  webspa:
-    ports:
-    - 4200:4200
+  # webspa:
+  #   ports:
+  #     - 4200:4200
+
+  # network_mode: host

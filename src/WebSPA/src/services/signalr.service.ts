@@ -20,7 +20,7 @@ export class SignalrService {
     console.log("Start signalr connection")
 
     const hubConnection = new HubConnectionBuilder()
-      .withUrl('http://publicapi:8080/analyticsResultsHub')
+      .withUrl('http://localhost:8080/analyticsResultsHub')
       .build();
     this.hubConnections[groupName.streamId + groupName.analyticsSettingsId] = hubConnection;
 

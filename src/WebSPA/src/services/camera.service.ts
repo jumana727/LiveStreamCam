@@ -12,10 +12,10 @@ import { SignalrService } from './signalr.service';
   providedIn: 'root'
 })
 export class CameraService {
-  private videoStreamApiUrl = 'http://publicapi:8080/api/VideoStream';
-  private analyticsApiUrl = 'http://publicapi:8080/api/Analytics';
+  private videoStreamApiUrl = 'http://localhost:8080/api/VideoStream';
+  private analyticsApiUrl = 'http://localhost:8080/api/Analytics';
   private hardCodedSettingsId = "7ce26d57-b6fb-463f-adaf-85e6e29dc9cc";
-  private mediamtxControlApiEndpint = "http://publicapi:8080/api/VideoStream";
+  private mediamtxControlApiEndpint = "http://localhost:8080/api/VideoStream";
 
   constructor(private http: HttpClient, private signalrService: SignalrService) {}
 

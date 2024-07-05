@@ -140,7 +140,7 @@ apiServerKey: server.key
 # Path to the server certificate.
 apiServerCert: server.crt
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-apiAllowOrigin: "http://webspa:4200"
+apiAllowOrigin: "http://localhost:4200"
 # List of IPs or CIDRs of proxies placed before the HTTP server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
