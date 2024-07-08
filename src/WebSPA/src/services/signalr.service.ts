@@ -5,6 +5,17 @@ import { GroupMembershipRequest } from '../GroupMembershipRequest';
 import { ToastService } from './toast.service';
 import { group } from '@angular/animations';
 
+interface AnalyticsResult {
+  X: number;
+  Y: number;
+  Width: number;
+  Height: number;
+  Score: number;
+  status: number;
+  dateTime: string;
+  Id: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +25,8 @@ export class SignalrService {
   constructor(private toast : ToastService){}
 
   hubConnections: { [key: string]: signalR.HubConnection } = {};
+
+  finalAnalyticsResult: AnalyticsResult | null = null;
 
   startConnection(groupName: GroupMembershipRequest): void {
 
@@ -57,10 +70,14 @@ export class SignalrService {
     console.log("Adding signalr message Listener")
     console.log(groupName.streamId + groupName.analyticsSettingsId);
     this.hubConnections[groupName.streamId + groupName.analyticsSettingsId].on('result', (message) => {
-      console.log(message);
-      this.toast.show(message);
+
+      const result: AnalyticsResult = JSON.parse(message);
+      console.log("analytics results");
+      console.log(result);
+      this.finalAnalyticsResult = result;
     });
   }
+      // {"X":872.0,"Y":124.0,"Width":434.0,"Height":291.0,"Score":9.1803E-41,"status":0,"dateTime":"2024-07-08T10:23:40.141597Z","Id":"00000000-0000-0000-0000-000000000000"}
 
   LeaveGroup(groupName: GroupMembershipRequest): void {
     console.log("Leaving Group");
@@ -68,3 +85,4 @@ export class SignalrService {
   }
 
 }
+

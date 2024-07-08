@@ -1,4 +1,5 @@
 <div class="video-container">
-    <iframe width="1080" height="720" [src]="safeStreamUrl"   frameborder="0" allowfullscreen></iframe>
+    <iframe id="video-frame" width="1080" height="720" [src]="safeStreamUrl"   frameborder="0" allowfullscreen></iframe>
+    <canvas #overlayCanvas id="overlay-canvas"></canvas>
 </div>
   
