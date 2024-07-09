@@ -15,8 +15,8 @@
 
   .video-container {
     position: relative;
-    width: 100vw; /* 50% of the viewport width */
-    height: 100vh; /* 50% of the viewport height */
+    width: 50vw; /* 50% of the viewport width */
+    height: 50vh; /* 50% of the viewport height */
     margin: auto; /* Center the container */
   }
   

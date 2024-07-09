@@ -62,7 +62,7 @@ export class VideoComponent implements OnChanges, AfterViewInit, OnInit {
       console.log('Drawing box at:', canvasX, canvasY, 'with dimensions:', canvasWidth, canvasHeight);
 
       context.strokeStyle = 'red';
-      context.lineWidth = 2;
+      context.lineWidth = 1;
       context.strokeRect(canvasX, canvasY, canvasWidth, canvasHeight);
     };
 
